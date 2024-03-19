@@ -1,12 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
-using System.Linq;
-using System.Text;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CountNPV
 {
@@ -15,15 +10,59 @@ namespace CountNPV
         private string year = "2050";
         private string discount = "0.2";
         private double npv;
-        public string Year { get { return year; } set { year = value;  } }
-
-        public string Discount { 
+        private string errormessage = string.Empty;
+        private NpvModel model;
+        public string Year
+        { 
+            get
+            { 
+                return year;
+            } set
+            {
+                year = value;
+                OnPropertyChanged("Year");
+            } 
+        }
+        public string Discount
+        { 
             get 
             {
                 return discount; 
-            } set { discount = value; } }
-        public double NPV { get { return Math.Round(npv, 2); } private set { npv = value;  } }
+            } 
+            set
+            {
+                discount = value;
+                OnPropertyChanged("Discount");
+            } 
+        }
+        public string ErrorMessage
+        {
+            get 
+            {
+                return errormessage;
+            }
+            set 
+            {
+                errormessage = value;
+                OnPropertyChanged("ErrorMessage");
+            }
+        }
+        public double NPV
+        { 
+            get
+            { 
+                return Math.Round(npv, 2);
+            }
+            private set 
+            {
+                npv = value;
+            } 
+        }
 
+        public NpvVM()
+        {
+            model = new NpvModel();
+        }
         private Command countNPV;
         public Command CountNPV 
         {
@@ -32,31 +71,41 @@ namespace CountNPV
                 return countNPV ??
                     (countNPV = new Command(obj =>
                     {
+                        ErrorMessage = string.Empty;
                         IFormatProvider formatter = new NumberFormatInfo { NumberDecimalSeparator = "." };
                         if (double.TryParse(Discount, NumberStyles.AllowDecimalPoint, formatter, out double result))
                         {
-                            if (result < 0)
+                            if (result < 0) 
                             {
-                                MessageBox.Show("Ставка дисконтирования указана в неверном формате");
-                                return;
+                                ErrorMessage += "Неверная ставка дисконтирования\n";
+                                Discount = "0.2";
                             }
                         }
                         else
                         {
-                            MessageBox.Show("Ставка дисконтирования указана в неверном формате");
-                            return;
+                            ErrorMessage += "Неверная ставка дисконтирования\n";
+                            Discount = "0.2";
                         }
                         if (Int32.TryParse(Year.ToString(), out int year))
                         {
                             if (year < 2020 || year > 2050)
                             {
-                                MessageBox.Show("Год указан неверно, возможные значения: 2020 - 2050");
+                                ErrorMessage += "Год указан неверно, возможные значения: 2020 - 2050";
+                                Year = "2050";
                                 return;
                             }
                         }
-                        
-                        NPV = NpvModel.CountNPV(Double.Parse(Discount, NumberStyles.AllowDecimalPoint, formatter), Int32.Parse(Year));
-                        OnPropertyChanged("NPV");
+                        else
+                        {
+                            ErrorMessage += "Год указан неверно, возможные значения: 2020 - 2050";
+                            Year = "2050";
+                            return;
+                        }
+                        if (ErrorMessage == string.Empty)
+                        {
+                            NPV = model.CountNPV(double.Parse(Discount,NumberStyles.AllowDecimalPoint, formatter), Int32.Parse(Year));
+                            OnPropertyChanged("NPV");
+                        }
                     }));
             }
         }

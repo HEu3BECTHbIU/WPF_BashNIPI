@@ -9,10 +9,9 @@
         
         
         Title="Рассчет NPV" Height="450" Width="728">
-    
+
     <Window.DataContext>
         <local:NpvVM/>
-        <!-- Создаем новый VM и соединяем его со View -->
     </Window.DataContext>
     <Grid ShowGridLines="True" Background="#FFABDBD6">
         <Grid.ColumnDefinitions>
@@ -21,29 +20,32 @@
         </Grid.ColumnDefinitions>
         <Label Content="Ставка дисконтирования" HorizontalAlignment="Left" Margin="56,37,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.566,-0.01" Width="195" Grid.ColumnSpan="2" Background="White" Foreground="Black" FontFamily="Arial" FontSize="16" Opacity="0.75" BorderBrush="Black"/>
         <Label Content="Год" HorizontalAlignment="Left" Margin="204,77,0,0" VerticalAlignment="Top" Width="47" Grid.ColumnSpan="2" Background="White" Opacity="0.75" Height="32" FontFamily="Arial" FontSize="16"/>
-        <Button x:Name="CountButton" Content="Рассчитать" HorizontalAlignment="Left" Margin="238,250,0,0" VerticalAlignment="Top" Height="40" Width="150" Command="{Binding CountNPV}" Grid.ColumnSpan="2" Background="White" BorderBrush="Black" FontFamily="Arial" FontSize="16"/>
+        <Button x:Name="CountButton" Content="Рассчитать" HorizontalAlignment="Left" Margin="238,250,0,0" VerticalAlignment="Top" Height="40" Width="150" Command="{Binding CountNPV }" Grid.ColumnSpan="2" Background="White" BorderBrush="Black" FontFamily="Arial" FontSize="16"/>
         <Label x:Name="NPVLabel" Content="NPV" HorizontalAlignment="Left" Margin="204,165,0,0" VerticalAlignment="Top" Grid.ColumnSpan="2" Height="32" Width="46" Background="White" Opacity="0.75" FontFamily="Arial" FontSize="16"/>
-       
+
         <TextBox HorizontalAlignment="Left" Margin="272,165,0,0" TextWrapping="Wrap" Text="{Binding NPV,Mode =OneWay, UpdateSourceTrigger=PropertyChanged}" IsReadOnly="True" VerticalAlignment="Top" Width="82" Grid.ColumnSpan="2" Height="32" Opacity="0.75" FontFamily="Arial" FontSize="14" TextAlignment="Center" BorderBrush="#FF00030C"/>
 
-       
-       
-        <TextBox Name="Year" HorizontalAlignment="Left" Margin="272,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82" Height="32" Grid.ColumnSpan="2" Opacity="0.75" FontFamily="Arial" FontSize="16" TextAlignment="Center" BorderBrush="Black">
+
+
+        <TextBox  Name="Year" HorizontalAlignment="Left" Margin="272,77,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="82" Height="32" Grid.ColumnSpan="2" Opacity="0.75" FontFamily="Arial" FontSize="16" TextAlignment="Center" BorderBrush="Black">
             <TextBox.Text>
-                <Binding Path="Year" UpdateSourceTrigger="LostFocus" >
-                    
+
+                <Binding Path="Year" UpdateSourceTrigger="LostFocus" Mode="TwoWay" >
+
                 </Binding>
             </TextBox.Text>
         </TextBox>
         <TextBox Name="Discount2" HorizontalAlignment="Left" Margin="272,37,0,0" VerticalAlignment="Top" Width="82" Height="28" Grid.ColumnSpan="2" Background="White" TextAlignment="Center" BorderBrush="Black" FontFamily="Arial" FontSize="16" TextWrapping="Wrap" Opacity="0.75">
             <TextBox.Text>
                 <Binding Path="Discount" UpdateSourceTrigger="LostFocus" >
-                    
+
                 </Binding>
             </TextBox.Text>
         </TextBox>
-        
+        <TextBox Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="249,317,0,0" TextWrapping="Wrap" Text="{Binding ErrorMessage}" VerticalAlignment="Top" Width="128" IsEnabled="False" Height="59" BorderBrush="Black" Opacity="0.75" FontFamily="Arial" SelectionBrush="#FF078FFA" Background="White" FontSize="10"/>
+        <Label Content="Поле для ошибок" Grid.ColumnSpan="2" HorizontalAlignment="Left" Margin="93,317,0,0" VerticalAlignment="Top" Background="White" BorderBrush="#FF020101" FontFamily="Arial" Opacity="0.75" Width="110"/>
+
     </Grid>
-    
+
 </Window>
     
