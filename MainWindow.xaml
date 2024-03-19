@@ -13,7 +13,7 @@
     <Window.DataContext>
         <local:NpvVM/>
     </Window.DataContext>
-    <Grid ShowGridLines="True" Background="#FFABDBD6">
+    <Grid ShowGridLines="True" Background="#FFA7A7A7">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0*"/>
             <ColumnDefinition/>
